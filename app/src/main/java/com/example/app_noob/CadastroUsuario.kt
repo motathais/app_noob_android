@@ -1,11 +1,13 @@
 package com.example.app_noob
 
+import android.content.Intent
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_noob.models.UsuarioRequest;
 import com.example.app_noob.models.UsuarioResponse;
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import retrofit2.Callback;
 import android.widget.Toast;
 import retrofit2.Call;
@@ -20,7 +22,7 @@ class CadastroUsuario : AppCompatActivity() {
     private lateinit var txtNascimentoUsuario: EditText
     private lateinit var txtSenhaUsuario: EditText
     private lateinit var btnCadastrarUsuario: Button
-    private lateinit var btnVoltarCadastroUsuario: Button
+    private lateinit var btnVoltarCadastroUsuario: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +49,10 @@ class CadastroUsuario : AppCompatActivity() {
             cadastrarUsuario(usuario)
         }
 
-       /* btnVoltarCadastroUsuario.setOnClickListener{
+        btnVoltarCadastroUsuario.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }*/
+        }
     }
 
 
