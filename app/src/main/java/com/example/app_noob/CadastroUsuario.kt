@@ -21,6 +21,7 @@ class CadastroUsuario : AppCompatActivity() {
     private lateinit var txtEmailUsuario: EditText
     private lateinit var txtNascimentoUsuario: EditText
     private lateinit var txtSenhaUsuario: EditText
+    private lateinit var txtConfirmarSenhaUsuario: EditText
     private lateinit var btnCadastrarUsuario: Button
     private lateinit var btnVoltarCadastroUsuario: ImageButton
 
@@ -35,18 +36,21 @@ class CadastroUsuario : AppCompatActivity() {
         txtNascimentoUsuario = findViewById(R.id.txtNascimentoUsuario)
         txtEmailUsuario = findViewById(R.id.txtEmailUsuario)
         txtSenhaUsuario = findViewById(R.id.txtSenhaUsuario)
+        txtSenhaUsuario = findViewById(R.id.txtConfirmarSenhaUsuario)
         btnCadastrarUsuario = findViewById(R.id.btnCadastrarUsuario)
-        btnVoltarCadastroUsuario = findViewById(R.id.btnVoltarCadastroUsuario)
+        btnVoltarCadastroUsuario = findViewById(R.id.btnVoltarMenuPrincipal)
 
         btnCadastrarUsuario.setOnClickListener {
-            val nome = txtNomeUsuario.text.toString()
-            val apelido = txtApelidoUsuario.text.toString()
-            val nascimento = txtNascimentoUsuario.text.toString()
-            val email = txtEmailUsuario.text.toString()
-            val senha = txtSenhaUsuario.text.toString()
+            if(validarCampos()) {
+                val nome = txtNomeUsuario.text.toString()
+                val apelido = txtApelidoUsuario.text.toString()
+                val nascimento = txtNascimentoUsuario.text.toString()
+                val email = txtEmailUsuario.text.toString()
+                val senha = txtSenhaUsuario.text.toString()
 
-            val usuario = UsuarioRequest(nome, apelido, nascimento, email, senha)
-            cadastrarUsuario(usuario)
+                val usuario = UsuarioRequest(nome, apelido, nascimento, email, senha)
+                cadastrarUsuario(usuario)
+            }
         }
 
         btnVoltarCadastroUsuario.setOnClickListener{
@@ -66,6 +70,7 @@ class CadastroUsuario : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     //Toast.makeText(this@CadastroUsuario, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@CadastroUsuario, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                    limparCampos()
                 } else {
                     Toast.makeText(this@CadastroUsuario, "Erro no cadastro: ${response.body()!!.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -75,5 +80,34 @@ class CadastroUsuario : AppCompatActivity() {
                 Toast.makeText(this@CadastroUsuario, "Erro na comunicação: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun limparCampos(){
+        txtNomeUsuario.text.clear()
+        txtApelidoUsuario.text.clear()
+        txtNascimentoUsuario.text.clear()
+        txtEmailUsuario.text.clear()
+        txtSenhaUsuario.text.clear()
+        txtConfirmarSenhaUsuario.text.clear()
+    }
+
+    private fun validarCampos(): Boolean {
+        val nome = txtNomeUsuario.text.toString().trim()
+        val apelido = txtApelidoUsuario.text.toString().trim()
+        val email = txtEmailUsuario.text.toString().trim()
+        val senha = txtSenhaUsuario.text.toString().trim()
+        val confirmarSenha = txtConfirmarSenhaUsuario.text.toString().trim()
+
+        if (nome.isEmpty() || apelido.isEmpty() || email.isEmpty() || senha.isEmpty() || confirmarSenha.isEmpty()) {
+            Toast.makeText(this, "Todos os campos devem ser preenchidos!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (senha != confirmarSenha) {
+            Toast.makeText(this, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 }
