@@ -56,22 +56,22 @@ class CadastroJogos : AppCompatActivity() {
 
         btnCadastrarJogos.setOnClickListener(){
 
-            val titulo = txtTituloJogo.text.toString()
-            val ano = txtAnoJogo.text.toString()
-            val idade = txtIdadeJogo.text.toString()
-            val designer = txtDesignerJogo.text.toString()
-            val artista = txtArtistaJogo.text.toString()
-            val editora = txtEditoraJogo.text.toString()
-            val digital = txtVersaoDigitalJogo.text.toString()
-            val categoria = txtCategoriaJogo.text.toString()
-            val componentes = txtComponentesJogo.text.toString()
-            val descricao = txtDescricaoJogo.text.toString()
+            if(verificaCampo()){
+                val titulo = txtTituloJogo.text.toString()
+                val ano = txtAnoJogo.text.toString()
+                val idade = txtIdadeJogo.text.toString()
+                val designer = txtDesignerJogo.text.toString()
+                val artista = txtArtistaJogo.text.toString()
+                val editora = txtEditoraJogo.text.toString()
+                val digital = txtVersaoDigitalJogo.text.toString()
+                val categoria = txtCategoriaJogo.text.toString()
+                val componentes = txtComponentesJogo.text.toString()
+                val descricao = txtDescricaoJogo.text.toString()
 
-            val jogo = JogoRequest(titulo, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao)
-            cadastrarJogos(jogo)
+                val jogo = JogoRequest(titulo, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao)
+                cadastrarJogos(jogo)
+            }
         }
-
-
     }
 
     private fun cadastrarJogos(jogo: JogoRequest) {
@@ -94,5 +94,15 @@ class CadastroJogos : AppCompatActivity() {
                 Toast.makeText(this@CadastroJogos, "Erro na comunicação: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun verificaCampo(): Boolean{
+        val titulo = txtTituloJogo.text.toString().trim()
+
+        if (titulo.isEmpty()){
+            Toast.makeText(this, "Por favor preencher ao menos o título!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }
