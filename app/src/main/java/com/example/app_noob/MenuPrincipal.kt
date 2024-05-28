@@ -18,7 +18,7 @@ class MenuPrincipal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_principal)
 
-        btnVoltarMenuPrincipal = findViewById(R.id.btnVoltarNovaPartida)
+        btnVoltarMenuPrincipal = findViewById(R.id.btnVoltarPerfilUsuario)
         btnRegistrarPartida = findViewById(R.id.btnRegistrarPartida)
         btnVisualizarPartida = findViewById(R.id.btnVisualizarPartida)
         btnCadastrarJogo = findViewById(R.id.btnCadastrarJogo)

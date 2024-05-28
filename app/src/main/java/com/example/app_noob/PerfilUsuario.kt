@@ -1,4 +1,4 @@
-package com.example.app_noobgit
+package com.example.app_noob
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,7 @@ class PerfilUsuario : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
 
-        btnVoltarPerfilUsuario= findViewById(R.id.btnVoltarNovaPartida)
+        btnVoltarPerfilUsuario= findViewById(R.id.btnVoltarPerfilUsuario)
 
         btnVoltarPerfilUsuario.setOnClickListener(){
             val intent = Intent(this, MenuPrincipal::class.java)

@@ -1,9 +1,6 @@
 package com.example.app_noob
 
-import com.example.app_noob.models.LoginRequest
-import com.example.app_noob.models.LoginResponse
-import com.example.app_noob.models.UsuarioRequest
-import com.example.app_noob.models.UsuarioResponse
+import com.example.app_noob.models.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -16,5 +13,10 @@ interface UsuarioApi {
 interface LoginApi {
     @POST("/api/login")
     fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
+}
+
+interface JogoApi {
+    @POST("/api/jogos")
+    fun cadastrarJogo(@Body jogoRequest: JogoRequest): Call<JogoResponse>
 }
 

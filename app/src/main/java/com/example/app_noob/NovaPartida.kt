@@ -12,7 +12,7 @@ class NovaPartida : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_partida)
 
-        btnVoltarNovaPartida= findViewById(R.id.btnVoltarNovaPartida)
+        btnVoltarNovaPartida= findViewById(R.id.btnVoltarPerfilUsuario)
 
         btnVoltarNovaPartida.setOnClickListener(){
             val intent = Intent(this, MenuPrincipal::class.java)
