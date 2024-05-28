@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnVoltarMenuPrincipal"
+        android:id="@+id/btnVoltarNovaPartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -83,5 +83,47 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ImageButton
+        android:id="@+id/btnCadastrarJogo"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnAlterarPerfil"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:srcCompat="@drawable/dado" />
+
+    <ImageButton
+        android:id="@+id/btnVisualizarPartida"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:srcCompat="@drawable/lista" />
+
+    <ImageButton
+        android:id="@+id/btnAlterarPerfil"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:srcCompat="@drawable/utilizador" />
+
+    <ImageButton
+        android:id="@+id/btnRegistrarPartida"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:srcCompat="@drawable/adicionar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
