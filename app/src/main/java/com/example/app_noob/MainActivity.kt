@@ -54,12 +54,13 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body() != null) {
-                    Toast.makeText(this@MainActivity, response.body()!!.msg, Toast.LENGTH_SHORT).show()
-
-                    //Toast.makeText(this@MainActivity, "O login deu certo", Toast.LENGTH_SHORT).show()
+                    val loginResponse = response.body()!!
+                    Toast.makeText(this@MainActivity, loginResponse.msg, Toast.LENGTH_SHORT).show()
 
                     // Iniciar a nova atividade após o login bem-sucedido
-                    val intent = Intent(this@MainActivity, MenuPrincipal::class.java)
+                    val intent = Intent(this@MainActivity, MenuPrincipal::class.java).apply {
+                        putExtra("USER_NAME", loginResponse.usuario.apelido)
+                    }
                     startActivity(intent)
 
                 } else {

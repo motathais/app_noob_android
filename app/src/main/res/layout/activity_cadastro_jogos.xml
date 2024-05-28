@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/perfil" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
     <EditText
         android:id="@+id/txtAnoJogo"
@@ -137,10 +137,10 @@
         app:layout_constraintTop_toBottomOf="@+id/txtComponentesJogo" />
 
     <TextView
-        android:id="@+id/perfil"
+        android:id="@+id/txtLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="56dp"
         android:text="Cadastre um novo jogo:"
         android:textColor="#000000"
         android:textSize="28sp"
@@ -153,7 +153,7 @@
         android:id="@+id/btnCadastrarJogos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="Cadastrar"
         app:backgroundTint="#EF9125"
         app:layout_constraintEnd_toEndOf="parent"

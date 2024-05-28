@@ -4,10 +4,15 @@ import com.example.app_noob.models.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface UsuarioApi {
     @POST("api/usuarios")
     fun cadastrarUsuario(@Body usuarioRequest: UsuarioRequest): Call<UsuarioResponse>
+
+    @GET("api/usuarios/{id}")
+    fun buscarUsuario(@Path("id") userId: Int): Call<UsuarioResponse>
 }
 
 interface LoginApi {
@@ -19,4 +24,8 @@ interface JogoApi {
     @POST("/api/jogos")
     fun cadastrarJogo(@Body jogoRequest: JogoRequest): Call<JogoResponse>
 }
+
+
+
+
 

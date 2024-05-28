@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.TextView
 
 class MenuPrincipal : AppCompatActivity() {
 
@@ -12,6 +13,7 @@ class MenuPrincipal : AppCompatActivity() {
     private lateinit var btnVisualizarPartida: ImageButton
     private lateinit var btnCadastrarJogo: ImageButton
     private lateinit var  btnAlterarPerfil: ImageButton
+    private lateinit var txtLogin: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +25,13 @@ class MenuPrincipal : AppCompatActivity() {
         btnVisualizarPartida = findViewById(R.id.btnVisualizarPartida)
         btnCadastrarJogo = findViewById(R.id.btnCadastrarJogo)
         btnAlterarPerfil = findViewById(R.id.btnAlterarPerfil)
+        txtLogin = findViewById(R.id.txtLogin)
+
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        if (userName != null) {
+            txtLogin.text = "Bem vindo, $userName!"
+        }
 
 
         btnVoltarMenuPrincipal.setOnClickListener(){
