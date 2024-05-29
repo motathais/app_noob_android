@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                     // Iniciar a nova atividade após o login bem-sucedido
                     val intent = Intent(this@MainActivity, MenuPrincipal::class.java).apply {
                         putExtra("USER_NAME", loginResponse.usuario.apelido)
+                        putExtra("USER_ID", loginResponse.usuario._id)
                     }
                     startActivity(intent)
 

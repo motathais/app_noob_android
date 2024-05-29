@@ -29,33 +29,38 @@ class MenuPrincipal : AppCompatActivity() {
 
         // Obter o nome do usuário passado pela MainActivity
         val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
         if (userName != null) {
-            txtLogin.text = "Bem vindo, $userName!"
+            txtLogin.text = "Bem vindo, $userName $userId!"
         }
 
 
         btnVoltarMenuPrincipal.setOnClickListener(){
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this@MenuPrincipal, MainActivity::class.java)
             startActivity(intent)
         }
 
         btnRegistrarPartida.setOnClickListener(){
-            val intent = Intent(this, NovaPartida::class.java)
+            val intent = Intent(this@MenuPrincipal, NovaPartida::class.java)
             startActivity(intent)
         }
 
         btnVisualizarPartida.setOnClickListener(){
-            val intent = Intent(this, ListaPartidas::class.java)
+            val intent = Intent(this@MenuPrincipal, ListaPartidas::class.java)
             startActivity(intent)
         }
 
         btnCadastrarJogo.setOnClickListener(){
-            val intent = Intent(this, CadastroJogos::class.java)
+            val intent = Intent(this@MenuPrincipal, CadastroJogos::class.java)
             startActivity(intent)
         }
 
         btnAlterarPerfil.setOnClickListener(){
-            val intent = Intent(this, PerfilUsuario::class.java)
+            val intent = Intent(this@MenuPrincipal, PerfilUsuario::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
     }

@@ -1,6 +1,7 @@
 package com.example.app_noob
 
 import com.example.app_noob.models.*
+import org.bson.types.ObjectId
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,7 +13,7 @@ interface UsuarioApi {
     fun cadastrarUsuario(@Body usuarioRequest: UsuarioRequest): Call<UsuarioResponse>
 
     @GET("api/usuarios/{id}")
-    fun buscarUsuario(@Path("id") userId: Int): Call<UsuarioResponse>
+    fun buscarUsuario(@Path("id") userId: String): Call<UsuarioSearch>
 }
 
 interface LoginApi {
