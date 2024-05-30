@@ -42,7 +42,7 @@ class MenuPrincipal : AppCompatActivity() {
         }
 
         btnRegistrarPartida.setOnClickListener(){
-            val intent = Intent(this@MenuPrincipal, NovaPartida::class.java)
+            val intent = Intent(this@MenuPrincipal, DefinirParticipantes::class.java)
             startActivity(intent)
         }
 

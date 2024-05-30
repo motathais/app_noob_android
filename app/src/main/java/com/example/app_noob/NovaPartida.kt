@@ -18,5 +18,7 @@ class NovaPartida : AppCompatActivity() {
             val intent = Intent(this, MenuPrincipal::class.java)
             startActivity(intent)
         }
+
+        val qtdParticipantes = intent.getStringExtra("QTD_PARTICIPANTES")
     }
 }

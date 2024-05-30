@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_noob">
         <activity
+            android:name=".DefinirParticipantes"
+            android:exported="false" />
+        <activity
             android:name=".CadastroUsuario"
             android:exported="false" />
         <activity
