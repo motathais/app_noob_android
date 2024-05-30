@@ -24,7 +24,7 @@ class DefinirParticipantes : AppCompatActivity() {
         radioGroup = findViewById(R.id.radioGroup)
 
         //Inicializando o botão continuar
-        btnContinuar = findViewById(R.id.btnContinuar)
+        btnContinuar = findViewById(R.id.btnIniciar)
 
         // Configurar listener para capturar a seleção do usuário
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -35,7 +35,7 @@ class DefinirParticipantes : AppCompatActivity() {
 
         btnContinuar.setOnClickListener(){
             val intent = Intent(this@DefinirParticipantes, NovaPartida::class.java).apply {
-                putExtra("QTD_PARTICIPANTES", valorSelecionado)
+                putExtra("QTD", valorSelecionado.toString())
             }
             startActivity(intent)
         }
