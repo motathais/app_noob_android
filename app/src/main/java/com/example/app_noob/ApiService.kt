@@ -8,6 +8,9 @@ interface UsuarioApi {
     @POST("api/usuarios")
     fun cadastrarUsuario(@Body usuarioRequest: UsuarioRequest): Call<UsuarioResponse>
 
+    @GET("api/usuarios")
+    fun buscarUsuarios(): Call<List<UsuarioSearch>>
+
     @GET("api/usuarios/{id}")
     fun buscarUsuario(@Path("id") userId: String): Call<UsuarioSearch>
 
