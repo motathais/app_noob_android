@@ -1,12 +1,8 @@
 package com.example.app_noob
 
 import com.example.app_noob.models.*
-import org.bson.types.ObjectId
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface UsuarioApi {
     @POST("api/usuarios")
@@ -14,6 +10,9 @@ interface UsuarioApi {
 
     @GET("api/usuarios/{id}")
     fun buscarUsuario(@Path("id") userId: String): Call<UsuarioSearch>
+
+    @PUT("api/usuarios/{id}")
+    fun atualizarUsuario(@Path("id") userId: String, @Body usuarioSearch: UsuarioSearch): Call<Void>
 }
 
 interface LoginApi {

@@ -61,14 +61,13 @@ class CadastroUsuario : AppCompatActivity() {
 
 
     private fun cadastrarUsuario(usuario: UsuarioRequest) {
-        val baseUrl = "https://web-eg08riks0c18.up-de-fra1-k8s-1.apps.run-on-seenode.com" // Substitua pela URL base da sua API
+        val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
         val usuarioApi = RetrofitClient.getClient(baseUrl).create(UsuarioApi::class.java)
         val call = usuarioApi.cadastrarUsuario(usuario)
 
         call.enqueue(object : Callback<UsuarioResponse> {
             override fun onResponse(call: Call<UsuarioResponse>, response: Response<UsuarioResponse>) {
                 if (response.isSuccessful && response.body() != null) {
-                    //Toast.makeText(this@CadastroUsuario, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@CadastroUsuario, response.body()!!.message, Toast.LENGTH_SHORT).show()
                     limparCampos()
                 } else {

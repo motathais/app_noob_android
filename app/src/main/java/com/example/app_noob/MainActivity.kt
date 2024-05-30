@@ -48,19 +48,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun login(apelido: String, senha: String) {
-        val apiService = RetrofitClient.getClient("https://web-eg08riks0c18.up-de-fra1-k8s-1.apps.run-on-seenode.com").create(LoginApi::class.java)
+        val apiService = RetrofitClient.getClient("https://api-noob.onrender.com").create(LoginApi::class.java)
         val call = apiService.login(LoginRequest(apelido, senha))
 
         call.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
-                    Toast.makeText(this@MainActivity, loginResponse.msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, response.body()!!.msg, Toast.LENGTH_SHORT).show()
 
                     // Iniciar a nova atividade após o login bem-sucedido
                     val intent = Intent(this@MainActivity, MenuPrincipal::class.java).apply {
                         putExtra("USER_NAME", loginResponse.usuario.apelido)
-                        putExtra("USER_ID", loginResponse.usuario._id)
+                        putExtra("USER_ID", loginResponse.usuario.id)
                     }
                     startActivity(intent)
 

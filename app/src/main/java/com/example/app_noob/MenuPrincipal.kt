@@ -32,7 +32,7 @@ class MenuPrincipal : AppCompatActivity() {
         val userId = intent.getStringExtra("USER_ID")
 
         if (userName != null) {
-            txtLogin.text = "Bem vindo, $userName $userId!"
+            txtLogin.text = "Bem vindo, $userName!"
         }
 
 

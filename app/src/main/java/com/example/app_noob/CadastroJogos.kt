@@ -1,7 +1,6 @@
 package com.example.app_noob
 
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,8 +9,6 @@ import android.widget.ImageButton
 import android.widget.Toast
 import com.example.app_noob.models.JogoRequest
 import com.example.app_noob.models.JogoResponse
-import com.example.app_noob.models.UsuarioRequest
-import com.example.app_noob.models.UsuarioResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,14 +72,13 @@ class CadastroJogos : AppCompatActivity() {
     }
 
     private fun cadastrarJogos(jogo: JogoRequest) {
-        val baseUrl = "https://web-eg08riks0c18.up-de-fra1-k8s-1.apps.run-on-seenode.com" // Substitua pela URL base da sua API
+        val baseUrl = "https://api-noob.onrender.com" // Substituir pela pela URL base da API
         val jogoApi = RetrofitClient.getClient(baseUrl).create(JogoApi::class.java)
         val call = jogoApi.cadastrarJogo(jogo)
 
         call.enqueue(object : Callback<JogoResponse> {
             override fun onResponse(call: Call<JogoResponse>, response: Response<JogoResponse>) {
                 if (response.isSuccessful && response.body() != null) {
-                    //Toast.makeText(this@CadastroUsuario, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@CadastroJogos, response.body()!!.msg, Toast.LENGTH_SHORT).show()
                     //limparCampos()
                 } else {
