@@ -1,12 +1,9 @@
 package com.example.app_noob
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
-import android.view.ViewGroup
 import android.widget.*
 import com.example.app_noob.models.UsuarioSearch
 import retrofit2.Call
@@ -16,12 +13,15 @@ import retrofit2.Response
 class NovaPartida : AppCompatActivity() {
 
     lateinit var btnVoltarNovaPartida: ImageButton
+    lateinit var btnContinuarPartida: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_partida)
 
-            btnVoltarNovaPartida = findViewById(R.id.btnVoltarPerfilUsuario)
+            btnVoltarNovaPartida = findViewById(R.id.btnVoltarNovaPartida)
+
+            btnContinuarPartida = findViewById(R.id.btnContinuarPartida)
 
             btnVoltarNovaPartida.setOnClickListener {
                 val intent = Intent(this, MenuPrincipal::class.java)
@@ -78,9 +78,14 @@ class NovaPartida : AppCompatActivity() {
             }
         })
 
+        btnContinuarPartida.setOnClickListener(){
+            val intent = Intent(this@NovaPartida, SelecionarJogo::class.java)
+            startActivity(intent)
         }
 
     }
+
+}
 
 
 

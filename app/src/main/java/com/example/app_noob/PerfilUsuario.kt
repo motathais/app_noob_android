@@ -30,7 +30,7 @@ class PerfilUsuario : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
 
-        btnVoltarPerfilUsuario= findViewById(R.id.btnVoltarPerfilUsuario)
+        btnVoltarPerfilUsuario= findViewById(R.id.btnVoltarSelecionarJogo)
         txtNomePerfil = findViewById(R.id.txtNomePerfil)
         txtApelidoPerfil = findViewById(R.id.txtApelidoPerfil)
         txtNascimentoPerfil = findViewById(R.id.txtNascimentoPerfil)

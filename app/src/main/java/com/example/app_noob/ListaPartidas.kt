@@ -13,7 +13,7 @@ class ListaPartidas : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_partidas)
 
-        btnVoltarListaPartidas = findViewById(R.id.btnVoltarPerfilUsuario)
+        btnVoltarListaPartidas = findViewById(R.id.btnVoltarSelecionarJogo)
 
         btnVoltarListaPartidas.setOnClickListener(){
             val intent = Intent(this, MenuPrincipal::class.java)

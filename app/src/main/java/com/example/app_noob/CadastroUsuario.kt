@@ -38,7 +38,7 @@ class CadastroUsuario : AppCompatActivity() {
         txtSenhaUsuario = findViewById(R.id.txtSenhaUsuario)
         txtSenhaUsuario = findViewById(R.id.txtConfirmarSenhaUsuario)
         btnCadastrarUsuario = findViewById(R.id.btnCadastrarJogos)
-        btnVoltarCadastroUsuario = findViewById(R.id.btnVoltarPerfilUsuario)
+        btnVoltarCadastroUsuario = findViewById(R.id.btnVoltarSelecionarJogo)
 
         btnCadastrarUsuario.setOnClickListener {
             if(validarCampos()) {

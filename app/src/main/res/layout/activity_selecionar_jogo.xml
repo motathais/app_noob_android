@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NovaPartida">
+    tools:context=".SelecionarJogo">
 
     <TextView
         android:id="@+id/txtLogin"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnVoltarNovaPartida"
+        android:id="@+id/btnVoltarSelecionarJogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Selecione os participantes:"
+        android:text="Selecione o jogo:"
         android:textColor="#000000"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,14 +44,14 @@
         app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
     <LinearLayout
-        android:id="@+id/spinner_container"
-        android:layout_width="384dp"
-        android:layout_height="292dp"
-        android:layout_marginTop="56dp"
+        android:id="@+id/spinner_container_jogos"
+        android:layout_width="383dp"
+        android:layout_height="221dp"
+        android:layout_marginTop="76dp"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"></LinearLayout>
 
@@ -59,12 +59,12 @@
         android:id="@+id/btnContinuarPartida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Continuar"
+        android:layout_marginTop="16dp"
+        android:text="Iniciar"
         app:backgroundTint="#EF9125"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_container" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_container_jogos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

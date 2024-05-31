@@ -3,16 +3,13 @@ package com.example.app_noob
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 
 class DefinirParticipantes : AppCompatActivity() {
 
     private lateinit var radioGroup: RadioGroup
     private var valorSelecionado: Int? = null
-
+    private lateinit var btnVoltarDefinirParticipantes: ImageButton
     private lateinit var btnContinuar: Button
 
 
@@ -20,11 +17,13 @@ class DefinirParticipantes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_definir_participantes)
 
+        btnVoltarDefinirParticipantes = findViewById(R.id.btnVoltarDefinirParticipantes)
+
         // Inicializar o RadioGroup
         radioGroup = findViewById(R.id.radioGroup)
 
         //Inicializando o botão continuar
-        btnContinuar = findViewById(R.id.btnIniciar)
+        btnContinuar = findViewById(R.id.btnContinuarPartida)
 
         // Configurar listener para capturar a seleção do usuário
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -39,6 +38,12 @@ class DefinirParticipantes : AppCompatActivity() {
             }
             startActivity(intent)
         }
+
+        btnVoltarDefinirParticipantes.setOnClickListener(){
+            val intent = Intent(this@DefinirParticipantes, MenuPrincipal::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }

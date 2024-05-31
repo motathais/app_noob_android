@@ -108,7 +108,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtConfirmarSenhaUsuario" />
 
     <ImageButton
-        android:id="@+id/btnVoltarPerfilUsuario"
+        android:id="@+id/btnVoltarSelecionarJogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"

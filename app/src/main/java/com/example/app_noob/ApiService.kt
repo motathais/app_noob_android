@@ -26,6 +26,9 @@ interface LoginApi {
 interface JogoApi {
     @POST("/api/jogos")
     fun cadastrarJogo(@Body jogoRequest: JogoRequest): Call<JogoResponse>
+
+    @GET("api/jogos")
+    fun buscarJogos(): Call<List<JogoSearch>>
 }
 
 
