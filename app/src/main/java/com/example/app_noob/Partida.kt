@@ -8,6 +8,13 @@ import android.widget.Button
 import android.widget.Chronometer
 import android.widget.ImageButton
 import android.widget.Toast
+import com.example.app_noob.models.JogoPartida
+import com.example.app_noob.models.PartidaRequest
+import com.example.app_noob.models.PartidaResponse
+import com.example.app_noob.models.UsuarioPartida
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Partida : AppCompatActivity() {
 
@@ -32,14 +39,7 @@ class Partida : AppCompatActivity() {
 
         // Recuperar os dados dos participantes do Intent
         participantes = intent.getStringArrayExtra("PARTICIPANTES") ?: arrayOfNulls(0)
-
         val jogo = intent.getStringExtra("JOGO_SELECIONADO")
-
-        Toast.makeText(
-            this@Partida,
-            "Jogo Selecionado: ${jogo} e o primeiro participante é: ${participantes[0]}",
-            Toast.LENGTH_SHORT
-        ).show()
 
         // Start the chronometer
         cronometro.base = SystemClock.elapsedRealtime()
@@ -51,16 +51,38 @@ class Partida : AppCompatActivity() {
 
             // Calculate elapsed time
             milissegundosCorridos = SystemClock.elapsedRealtime() - cronometro.base
+            val duracao = "${milissegundosCorridos / 1000} segundos"
 
-            // Show the elapsed time (optional)
-            Toast.makeText(
-                this,
-                "Tempo: ${milissegundosCorridos / 1000} segundos",
-                Toast.LENGTH_SHORT
-            ).show()
+            // Criação dos objetos necessários para a API
+            val usuarioList = participantes.map { UsuarioPartida(it ?: "") }
+            val jogoList = listOf(JogoPartida(jogo ?: ""))
+            val vencedor = usuarioList.first() // Ou determine o vencedor de outra forma
 
-            // Here you can use the elapsed time as needed
-            // For example, you can save it to a variable or pass it to another activity
+            val atividade = PartidaRequest(
+                usuarios = usuarioList,
+                jogo = jogoList,
+                vencedor = vencedor,
+                duracao = duracao
+            )
+
+            // Enviar dados para a API usando Retrofit
+            val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
+            val atividadeApi = RetrofitClient.getClient(baseUrl).create(AtividadeApi::class.java)
+            val call = atividadeApi.criarAtividade(atividade)
+
+            call.enqueue(object : Callback<PartidaResponse> {
+                override fun onResponse(call: Call<PartidaResponse>, response: Response<PartidaResponse>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@Partida, "Partida registrada com sucesso!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@Partida, "Erro ao registrar a partida: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PartidaResponse>, t: Throwable) {
+                    Toast.makeText(this@Partida, "Erro na requisição: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
 
         }
     }

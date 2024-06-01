@@ -31,7 +31,10 @@ interface JogoApi {
     fun buscarJogos(): Call<List<JogoSearch>>
 }
 
-
+interface AtividadeApi {
+    @POST("/api/atividades")
+    fun criarAtividade(@Body atividade: PartidaRequest): Call <PartidaResponse>
+}
 
 
 
