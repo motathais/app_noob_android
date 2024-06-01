@@ -99,6 +99,8 @@ class SelecionarJogo : AppCompatActivity() {
 
             val intent = Intent(this@SelecionarJogo, Partida::class.java)
             intent.putExtra("JOGO_SELECIONADO", jogoSelecionado)
+            intent.putExtra("PARTICIPANTES", participantes)
+
             startActivity(intent)
         }
     }

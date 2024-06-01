@@ -39,9 +39,6 @@ class NovaPartida : AppCompatActivity() {
         // Inicialize o array de participantes com o tamanho necessário
         participantes = arrayOfNulls(qtdParticipantes)
 
-        // Lista de opções para o Spinner
-        //val opcoes = listOf("usuario1", "usuario2", "usuario3")
-
         // Referência ao LinearLayout onde os Spinners serão adicionados
         val spinnerContainer = findViewById<LinearLayout>(R.id.spinner_container)
 
