@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_noob">
         <activity
+            android:name=".Partida"
+            android:exported="false" />
+        <activity
             android:name=".SelecionarJogo"
             android:exported="false" />
         <activity

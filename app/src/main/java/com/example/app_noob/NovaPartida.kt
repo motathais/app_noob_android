@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import com.example.app_noob.models.UsuarioSearch
 import retrofit2.Call
@@ -15,13 +16,16 @@ class NovaPartida : AppCompatActivity() {
     lateinit var btnVoltarNovaPartida: ImageButton
     lateinit var btnContinuarPartida: Button
 
+    // Array para armazenar os participantes
+    private lateinit var participantes: Array<String?>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nova_partida)
 
             btnVoltarNovaPartida = findViewById(R.id.btnVoltarNovaPartida)
 
-            btnContinuarPartida = findViewById(R.id.btnContinuarPartida)
+            btnContinuarPartida = findViewById(R.id.btnSalvarPartida)
 
             btnVoltarNovaPartida.setOnClickListener {
                 val intent = Intent(this, MenuPrincipal::class.java)
@@ -31,6 +35,9 @@ class NovaPartida : AppCompatActivity() {
             val qtdParticipantes = intent.getStringExtra("QTD")?.toIntOrNull() ?: 0
 
             Toast.makeText(this@NovaPartida, "Quantidade de participantes: ${qtdParticipantes}", Toast.LENGTH_SHORT).show()
+
+        // Inicialize o array de participantes com o tamanho necessário
+        participantes = arrayOfNulls(qtdParticipantes)
 
         // Lista de opções para o Spinner
         //val opcoes = listOf("usuario1", "usuario2", "usuario3")
@@ -49,22 +56,31 @@ class NovaPartida : AppCompatActivity() {
                     val usuarios = response.body() ?: emptyList()
                     val nomes = usuarios.map { it.nome }
 
-                    // Criar e adicionar os Spinners dinamicamente
-                    for (i in 1..qtdParticipantes) {
+                    for (i in 0 until qtdParticipantes) {
                         val spinner = Spinner(this@NovaPartida)
                         val adapter = ArrayAdapter(this@NovaPartida, android.R.layout.simple_spinner_item, nomes)
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.adapter = adapter
 
-                        // Configurar LayoutParams para o Spinner com margens
+                        // Listener para armazenar a seleção do usuário
+                        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                                participantes[i] = nomes[position]
+                                Log.d("NovaPartida", "Participante $i selecionado: ${nomes[position]}")
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                                // Do nothing
+                            }
+                        }
+
                         val layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT
                         )
-                        layoutParams.setMargins(0, 16, 0, 16) // Adicionar margens (espaçamento) entre os Spinners
+                        layoutParams.setMargins(0, 16, 0, 16)
                         spinner.layoutParams = layoutParams
 
-                        // Adicionar o Spinner ao container
                         spinnerContainer.addView(spinner)
                         Log.d("NovaPartida", "Spinner $i adicionado")
                     }
@@ -79,7 +95,9 @@ class NovaPartida : AppCompatActivity() {
         })
 
         btnContinuarPartida.setOnClickListener(){
-            val intent = Intent(this@NovaPartida, SelecionarJogo::class.java)
+            val intent = Intent(this@NovaPartida, SelecionarJogo::class.java).apply {
+                putExtra("PARTICIPANTES", participantes)
+            }
             startActivity(intent)
         }
 

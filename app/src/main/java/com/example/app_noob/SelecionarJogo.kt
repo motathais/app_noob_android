@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.Spinner
+import android.view.View
+import android.widget.*
 import com.example.app_noob.models.JogoSearch
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,25 +13,34 @@ import retrofit2.Response
 
 class SelecionarJogo : AppCompatActivity() {
 
-    lateinit var btnVoltarSelecionarJogo: ImageButton
+    private lateinit var participantes: Array<String?>
+
+    private lateinit var btnSalvarPartida: Button
+    private lateinit var spinnerContainerJogo: LinearLayout
+
+    private lateinit var btnVoltarSelecionarJogo: ImageButton
+
+    // Variável para armazenar o jogo selecionado
+    private var jogoSelecionado: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selecionar_jogo)
 
+        btnSalvarPartida = findViewById(R.id.btnSalvarPartida)
+        spinnerContainerJogo = findViewById(R.id.spinner_container_jogos)
         btnVoltarSelecionarJogo = findViewById(R.id.btnVoltarSelecionarJogo)
 
-        btnVoltarSelecionarJogo.setOnClickListener {
-            val intent = Intent(this, MenuPrincipal::class.java)
+
+        btnVoltarSelecionarJogo.setOnClickListener(){
+            val intent = Intent(this@SelecionarJogo, MenuPrincipal::class.java)
             startActivity(intent)
         }
 
-        val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
+        // Recuperar os dados dos participantes do Intent
+        participantes = intent.getStringArrayExtra("PARTICIPANTES") ?: arrayOfNulls(0)
 
-        //Spinner de jogos
-
-        val spinnerContainerJogo = findViewById<LinearLayout>(R.id.spinner_container_jogos)
-
+        val baseUrl = "https://api-noob.onrender.com"
         val jogoApi = RetrofitClient.getClient(baseUrl).create(JogoApi::class.java)
 
         val callJogos = jogoApi.buscarJogos()
@@ -58,23 +65,43 @@ class SelecionarJogo : AppCompatActivity() {
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
-                    layoutParams.setMargins(
-                        0,
-                        16,
-                        0,
-                        16
-                    ) // Adicionar margens (espaçamento) entre os Spinners
+                    layoutParams.setMargins(0, 16, 0, 16)
                     spinnerJogos.layoutParams = layoutParams
 
                     // Adicionar o Spinner ao container
                     spinnerContainerJogo.addView(spinnerJogos)
-                    Log.d("NovaPartida", "Spinner de jogos adicionado")
+                    Log.d("SelecionarJogo", "Spinner de jogos adicionado")
+
+                    // Listener para armazenar a seleção do usuário
+                    spinnerJogos.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                            jogoSelecionado = titulos[position]
+                            Log.d("SelecionarJogo", "Jogo selecionado: $jogoSelecionado")
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {
+                            // Do nothing
+                        }
+                    }
+                } else {
+                    Log.e("SelecionarJogo", "Falha na resposta: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<JogoSearch>>, t: Throwable) {
-                Log.e("NovaPartida", "Erro na chamada à API", t)
+                Log.e("SelecionarJogo", "Erro na chamada à API", t)
             }
-        })
+        }
+        )
+
+        btnSalvarPartida.setOnClickListener {
+            Toast.makeText(this, "Jogo selecionado: $jogoSelecionado", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this@SelecionarJogo, Partida::class.java)
+            intent.putExtra("JOGO_SELECIONADO", jogoSelecionado)
+            startActivity(intent)
+        }
     }
+
+
 }

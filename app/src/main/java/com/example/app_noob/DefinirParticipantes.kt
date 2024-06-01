@@ -17,13 +17,13 @@ class DefinirParticipantes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_definir_participantes)
 
-        btnVoltarDefinirParticipantes = findViewById(R.id.btnVoltarDefinirParticipantes)
+        btnVoltarDefinirParticipantes = findViewById(R.id.btnVoltarPartida)
 
         // Inicializar o RadioGroup
         radioGroup = findViewById(R.id.radioGroup)
 
         //Inicializando o botão continuar
-        btnContinuar = findViewById(R.id.btnContinuarPartida)
+        btnContinuar = findViewById(R.id.btnSalvarPartida)
 
         // Configurar listener para capturar a seleção do usuário
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
