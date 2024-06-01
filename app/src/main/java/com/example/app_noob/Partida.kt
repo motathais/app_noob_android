@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.widget.Button
-import android.widget.Chronometer
-import android.widget.ImageButton
-import android.widget.Toast
+import android.text.InputType
+import android.widget.*
 import com.example.app_noob.models.JogoPartida
 import com.example.app_noob.models.PartidaRequest
 import com.example.app_noob.models.PartidaResponse
@@ -21,6 +19,7 @@ class Partida : AppCompatActivity() {
     private lateinit var btnVoltarPartida: ImageButton
     private lateinit var participantes: Array<String?>
     private lateinit var cronometro: Chronometer
+    private lateinit var pontosEditTexts: Array<EditText?>
     private lateinit var btnSalvarPartida: Button
     private var milissegundosCorridos: Long = 0
 
@@ -41,6 +40,23 @@ class Partida : AppCompatActivity() {
         participantes = intent.getStringArrayExtra("PARTICIPANTES") ?: arrayOfNulls(0)
         val jogo = intent.getStringExtra("JOGO_SELECIONADO")
 
+
+        // Inicializar o array de EditTexts
+        pontosEditTexts = arrayOfNulls(participantes.size)
+
+        // Obter o LinearLayout onde os EditTexts serão adicionados
+        val pontosContainer = findViewById<LinearLayout>(R.id.pontosContainer)
+
+
+        // Adicionar EditTexts dinamicamente
+        for (i in participantes.indices) {
+            val editText = EditText(this)
+            editText.hint = "Pontos de ${participantes[i]}"
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+            pontosContainer.addView(editText)
+            pontosEditTexts[i] = editText
+        }
+
         // Start the chronometer
         cronometro.base = SystemClock.elapsedRealtime()
         cronometro.start()
@@ -53,10 +69,14 @@ class Partida : AppCompatActivity() {
             milissegundosCorridos = SystemClock.elapsedRealtime() - cronometro.base
             val duracao = "${milissegundosCorridos / 1000} segundos"
 
+            // Coletar os pontos dos EditTexts
+            val pontos = pontosEditTexts.map { it?.text.toString().toIntOrNull() ?: 0 }
+            val vencedorIndex = pontos.indexOf(pontos.maxOrNull())
+
             // Criação dos objetos necessários para a API
             val usuarioList = participantes.map { UsuarioPartida(it ?: "") }
             val jogoList = listOf(JogoPartida(jogo ?: ""))
-            val vencedor = usuarioList.first() // Ou determine o vencedor de outra forma
+            val vencedor = usuarioList[vencedorIndex]
 
             val atividade = PartidaRequest(
                 usuarios = usuarioList,
@@ -73,7 +93,8 @@ class Partida : AppCompatActivity() {
             call.enqueue(object : Callback<PartidaResponse> {
                 override fun onResponse(call: Call<PartidaResponse>, response: Response<PartidaResponse>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@Partida, "Partida registrada com sucesso!", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this@Partida, "Partida registrada com sucesso!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor: ${vencedor}", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this@Partida, "Erro ao registrar a partida: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }

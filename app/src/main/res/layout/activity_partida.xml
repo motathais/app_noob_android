@@ -43,6 +43,15 @@
         app:srcCompat="?attr/actionModeCloseDrawable"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <LinearLayout
+        android:id="@+id/pontosContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/txtLogin"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="98dp"
