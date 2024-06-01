@@ -25,7 +25,7 @@ class NovaPartida : AppCompatActivity() {
 
             btnVoltarNovaPartida = findViewById(R.id.btnVoltarNovaPartida)
 
-            btnContinuarPartida = findViewById(R.id.btnSalvarPartida)
+            btnContinuarPartida = findViewById(R.id.btnIniciarPartida)
 
             btnVoltarNovaPartida.setOnClickListener {
                 val intent = Intent(this, MenuPrincipal::class.java)

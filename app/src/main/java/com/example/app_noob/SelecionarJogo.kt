@@ -15,7 +15,7 @@ class SelecionarJogo : AppCompatActivity() {
 
     private lateinit var participantes: Array<String?>
 
-    private lateinit var btnSalvarPartida: Button
+    private lateinit var btnIniciarPartida: Button
     private lateinit var spinnerContainerJogo: LinearLayout
 
     private lateinit var btnVoltarSelecionarJogo: ImageButton
@@ -27,7 +27,7 @@ class SelecionarJogo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selecionar_jogo)
 
-        btnSalvarPartida = findViewById(R.id.btnSalvarPartida)
+        btnIniciarPartida = findViewById(R.id.btnIniciarPartida)
         spinnerContainerJogo = findViewById(R.id.spinner_container_jogos)
         btnVoltarSelecionarJogo = findViewById(R.id.btnVoltarSelecionarJogo)
 
@@ -94,7 +94,7 @@ class SelecionarJogo : AppCompatActivity() {
         }
         )
 
-        btnSalvarPartida.setOnClickListener {
+        btnIniciarPartida.setOnClickListener {
             Toast.makeText(this, "Jogo selecionado: $jogoSelecionado", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this@SelecionarJogo, Partida::class.java)

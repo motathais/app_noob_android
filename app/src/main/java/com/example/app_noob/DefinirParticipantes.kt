@@ -23,7 +23,7 @@ class DefinirParticipantes : AppCompatActivity() {
         radioGroup = findViewById(R.id.radioGroup)
 
         //Inicializando o botão continuar
-        btnContinuar = findViewById(R.id.btnSalvarPartida)
+        btnContinuar = findViewById(R.id.btnIniciarPartida)
 
         // Configurar listener para capturar a seleção do usuário
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
