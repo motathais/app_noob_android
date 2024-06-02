@@ -74,6 +74,12 @@ class CadastroJogos : AppCompatActivity() {
 
                 val jogo = JogoRequest(titulo, ano, idade, designer, artista, editora, digital, categoria, componentes, descricao)
                 cadastrarJogos(jogo)
+
+                val intent = Intent(this, MenuPrincipal::class.java).apply {
+                    putExtra("USER_NAME",userName)
+                    putExtra("USER_ID",userId)
+                }
+                startActivity(intent)
             }
         }
     }
@@ -87,7 +93,6 @@ class CadastroJogos : AppCompatActivity() {
             override fun onResponse(call: Call<JogoResponse>, response: Response<JogoResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     Toast.makeText(this@CadastroJogos, response.body()!!.msg, Toast.LENGTH_SHORT).show()
-                    //limparCampos()
                 } else {
                     Toast.makeText(this@CadastroJogos, "Erro no cadastro: ${response.body()!!.msg}", Toast.LENGTH_SHORT).show()
                 }

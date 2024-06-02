@@ -1,12 +1,15 @@
 package com.example.app_noob
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -27,12 +30,11 @@ class PerfilUsuario : AppCompatActivity() {
     private lateinit var btnAtualizarPerfil: Button
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
 
-        btnVoltarPerfilUsuario= findViewById(R.id.btnVoltarSelecionarJogo)
+        btnVoltarPerfilUsuario = findViewById(R.id.btnVoltarSelecionarJogo)
         txtNomePerfil = findViewById(R.id.txtNomePerfil)
         txtApelidoPerfil = findViewById(R.id.txtApelidoPerfil)
         txtNascimentoPerfil = findViewById(R.id.txtNascimentoPerfil)
@@ -49,22 +51,22 @@ class PerfilUsuario : AppCompatActivity() {
             buscarUsuarios(userId)
         }
 
-        btnVoltarPerfilUsuario.setOnClickListener(){
+        btnVoltarPerfilUsuario.setOnClickListener() {
             val intent = Intent(this, MenuPrincipal::class.java).apply {
-                putExtra("USER_NAME",userName)
-                putExtra("USER_ID",userId)
+                putExtra("USER_NAME", userName)
+                putExtra("USER_ID", userId)
             }
             startActivity(intent)
         }
 
-        btnAtualizarPerfil.setOnClickListener(){
+        btnAtualizarPerfil.setOnClickListener() {
             if (userId != null) {
                 atualizarUsuario(userId)
             }
         }
     }
 
-    private fun buscarUsuarios(userId:String){
+    private fun buscarUsuarios(userId: String) {
         val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
         val usuarioApi = RetrofitClient.getClient(baseUrl).create(UsuarioApi::class.java)
         val call = usuarioApi.buscarUsuario(userId)
@@ -73,17 +75,26 @@ class PerfilUsuario : AppCompatActivity() {
             override fun onResponse(call: Call<UsuarioSearch>, response: Response<UsuarioSearch>) {
                 if (response.isSuccessful) {
                     val userDetails = response.body()
-                    Toast.makeText(this@PerfilUsuario, "Dados carregados com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PerfilUsuario,
+                        "Dados carregados com sucesso!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     userDetails?.let {
                         preencherCamposUsuario(it)
                     }
                 } else {
-                    Toast.makeText(this@PerfilUsuario, "Falha ao carregar dados!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PerfilUsuario,
+                        "Falha ao carregar dados!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<UsuarioSearch>, t: Throwable) {
-                Toast.makeText(this@PerfilUsuario, "Falha de requisição!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PerfilUsuario, "Falha de requisição!", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
@@ -91,12 +102,13 @@ class PerfilUsuario : AppCompatActivity() {
     private fun preencherCamposUsuario(usuarioSearch: UsuarioSearch) {
         txtNomePerfil.setText(usuarioSearch.nome)
         txtApelidoPerfil.setText(usuarioSearch.apelido)
-        txtNascimentoPerfil.setText(formatarData(usuarioSearch.nascimento))
+        val dataFormatada = formatarData(usuarioSearch.nascimento)
+        txtNascimentoPerfil.setText(dataFormatada)
         txtEmailPerfil.setText(usuarioSearch.email)
 
     }
 
-    private fun atualizarUsuario(userId: String){
+    private fun atualizarUsuario(userId: String) {
         val nome = txtNomePerfil.text.toString()
         val apelido = txtApelidoPerfil.text.toString()
         val nascimento = txtNascimentoPerfil.text.toString()
@@ -125,31 +137,48 @@ class PerfilUsuario : AppCompatActivity() {
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@PerfilUsuario, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PerfilUsuario,
+                        "Dados atualizados com sucesso!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(this@PerfilUsuario, "Falha ao atualizar dados!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@PerfilUsuario,
+                        "Falha ao atualizar dados!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@PerfilUsuario, "Falha de requisição!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PerfilUsuario, "Falha de requisição!", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
 
     private fun formatarData(dataOriginal: String): String {
         return try {
+            Log.d("PerfilUsuario", "Formatando data: $dataOriginal")
+            // Extrair os 10 primeiros caracteres da data
+            val dataCurta = dataOriginal.substring(0, 10)
             // Define o formato de entrada
-            val formatoEntrada = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+            val formatoEntrada = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             // Converte a string para um objeto Date
-            val date: Date = formatoEntrada.parse(dataOriginal)
+            val date: Date? = formatoEntrada.parse(dataCurta)
             // Define o formato de saída
             val formatoSaida = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             // Retorna a data no formato desejado
-            formatoSaida.format(date)
+            if (date != null) {
+                formatoSaida.format(date)
+            } else {
+                dataOriginal
+            }
         } catch (e: Exception) {
+            Log.e("PerfilUsuario", "Erro ao formatar data: ${e.message}")
             // Se houver um erro, retorna a data original
             dataOriginal
         }
     }
-    }
+}
