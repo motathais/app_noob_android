@@ -31,9 +31,16 @@ class SelecionarJogo : AppCompatActivity() {
         spinnerContainerJogo = findViewById(R.id.spinner_container_jogos)
         btnVoltarSelecionarJogo = findViewById(R.id.btnVoltarSelecionarJogo)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
 
         btnVoltarSelecionarJogo.setOnClickListener(){
-            val intent = Intent(this@SelecionarJogo, MenuPrincipal::class.java)
+            val intent = Intent(this@SelecionarJogo, NovaPartida::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 
@@ -100,6 +107,8 @@ class SelecionarJogo : AppCompatActivity() {
             val intent = Intent(this@SelecionarJogo, Partida::class.java)
             intent.putExtra("JOGO_SELECIONADO", jogoSelecionado)
             intent.putExtra("PARTICIPANTES", participantes)
+            intent.putExtra("USER_NAME",userName)
+            intent.putExtra("USER_ID",userId)
 
             startActivity(intent)
         }

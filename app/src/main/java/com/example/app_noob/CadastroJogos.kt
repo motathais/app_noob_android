@@ -46,8 +46,15 @@ class CadastroJogos : AppCompatActivity() {
         txtDescricaoJogo= findViewById(R.id.txtDescricaoJogo)
         btnCadastrarJogos = findViewById(R.id.btnCadastrarJogos)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
         btnVoltarCadastroJogos.setOnClickListener(){
-            val intent = Intent(this, MenuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipal::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 

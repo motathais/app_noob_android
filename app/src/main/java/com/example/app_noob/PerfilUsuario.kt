@@ -26,6 +26,8 @@ class PerfilUsuario : AppCompatActivity() {
     private lateinit var txtConfirmarSenhaPerfil: EditText
     private lateinit var btnAtualizarPerfil: Button
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
@@ -39,6 +41,8 @@ class PerfilUsuario : AppCompatActivity() {
         txtConfirmarSenhaPerfil = findViewById(R.id.txtConfirmarSenhaPerfil)
         btnAtualizarPerfil = findViewById(R.id.btnAtualizarPerfil)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
         val userId = intent.getStringExtra("USER_ID")
 
         if (userId != null) {
@@ -46,7 +50,10 @@ class PerfilUsuario : AppCompatActivity() {
         }
 
         btnVoltarPerfilUsuario.setOnClickListener(){
-            val intent = Intent(this, MenuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipal::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 

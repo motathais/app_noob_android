@@ -42,17 +42,26 @@ class MenuPrincipal : AppCompatActivity() {
         }
 
         btnRegistrarPartida.setOnClickListener(){
-            val intent = Intent(this@MenuPrincipal, DefinirParticipantes::class.java)
+            val intent = Intent(this@MenuPrincipal, DefinirParticipantes::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 
         btnVisualizarPartida.setOnClickListener(){
-            val intent = Intent(this@MenuPrincipal, ListaPartidas::class.java)
+            val intent = Intent(this@MenuPrincipal, ListaPartidas::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 
         btnCadastrarJogo.setOnClickListener(){
-            val intent = Intent(this@MenuPrincipal, CadastroJogos::class.java)
+            val intent = Intent(this@MenuPrincipal, CadastroJogos::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 

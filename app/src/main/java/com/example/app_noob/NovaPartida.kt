@@ -27,8 +27,15 @@ class NovaPartida : AppCompatActivity() {
 
             btnContinuarPartida = findViewById(R.id.btnIniciarPartida)
 
+            // Obter o nome do usuário passado pela MainActivity
+            val userName = intent.getStringExtra("USER_NAME")
+            val userId = intent.getStringExtra("USER_ID")
+
             btnVoltarNovaPartida.setOnClickListener {
-                val intent = Intent(this, MenuPrincipal::class.java)
+                val intent = Intent(this, DefinirParticipantes::class.java).apply {
+                    putExtra("USER_NAME",userName)
+                    putExtra("USER_ID",userId)
+                }
                 startActivity(intent)
             }
 
@@ -51,7 +58,7 @@ class NovaPartida : AppCompatActivity() {
             override fun onResponse(call: Call<List<UsuarioSearch>>, response: Response<List<UsuarioSearch>>) {
                 if (response.isSuccessful) {
                     val usuarios = response.body() ?: emptyList()
-                    val nomes = usuarios.map { it.nome }
+                    val nomes = usuarios.map { it.apelido }
 
                     for (i in 0 until qtdParticipantes) {
                         val spinner = Spinner(this@NovaPartida)
@@ -94,6 +101,8 @@ class NovaPartida : AppCompatActivity() {
         btnContinuarPartida.setOnClickListener(){
             val intent = Intent(this@NovaPartida, SelecionarJogo::class.java).apply {
                 putExtra("PARTICIPANTES", participantes)
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
             }
             startActivity(intent)
         }

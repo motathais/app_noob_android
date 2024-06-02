@@ -36,7 +36,7 @@ class CadastroUsuario : AppCompatActivity() {
         txtNascimentoUsuario = findViewById(R.id.txtNascimentoUsuario)
         txtEmailUsuario = findViewById(R.id.txtEmailUsuario)
         txtSenhaUsuario = findViewById(R.id.txtSenhaUsuario)
-        txtSenhaUsuario = findViewById(R.id.txtConfirmarSenhaUsuario)
+        txtConfirmarSenhaUsuario = findViewById(R.id.txtConfirmarSenhaUsuario)
         btnCadastrarUsuario = findViewById(R.id.btnCadastrarJogos)
         btnVoltarCadastroUsuario = findViewById(R.id.btnVoltarSelecionarJogo)
 

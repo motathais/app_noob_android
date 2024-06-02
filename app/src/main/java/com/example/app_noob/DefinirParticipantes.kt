@@ -17,6 +17,10 @@ class DefinirParticipantes : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_definir_participantes)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
         btnVoltarDefinirParticipantes = findViewById(R.id.btnVoltarPartida)
 
         // Inicializar o RadioGroup
@@ -35,12 +39,17 @@ class DefinirParticipantes : AppCompatActivity() {
         btnContinuar.setOnClickListener(){
             val intent = Intent(this@DefinirParticipantes, NovaPartida::class.java).apply {
                 putExtra("QTD", valorSelecionado.toString())
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
             }
             startActivity(intent)
         }
 
         btnVoltarDefinirParticipantes.setOnClickListener(){
-            val intent = Intent(this@DefinirParticipantes, MenuPrincipal::class.java)
+            val intent = Intent(this@DefinirParticipantes, MenuPrincipal::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 

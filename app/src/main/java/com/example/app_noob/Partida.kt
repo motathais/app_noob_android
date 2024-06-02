@@ -31,8 +31,15 @@ class Partida : AppCompatActivity() {
         cronometro = findViewById(R.id.chronometer)
         btnSalvarPartida = findViewById(R.id.btnSalvarPartida)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
         btnVoltarPartida.setOnClickListener {
-            val intent = Intent(this@Partida, MenuPrincipal::class.java)
+            val intent = Intent(this@Partida, SelecionarJogo::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 
@@ -95,7 +102,14 @@ class Partida : AppCompatActivity() {
                 override fun onResponse(call: Call<PartidaResponse>, response: Response<PartidaResponse>) {
                     if (response.isSuccessful) {
                         val vencedorNomes = vencedores.joinToString(", ") { it.nome }
-                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor(es): $vencedorNomes", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor: $vencedorNomes", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this@Partida, MenuPrincipal::class.java).apply {
+                            putExtra("USER_NAME",userName)
+                            putExtra("USER_ID",userId)
+                        }
+                        startActivity(intent)
+
                     } else {
                         Toast.makeText(this@Partida, "Erro ao registrar a partida: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }

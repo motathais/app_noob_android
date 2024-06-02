@@ -25,14 +25,23 @@ class ListaPartidas : AppCompatActivity() {
     private lateinit var atividadeAdapter: AtividadeAdapter
     private val atividades: MutableList<PartidaSearch> = mutableListOf()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_partidas)
 
         btnVoltarListaPartidas = findViewById(R.id.btnVoltarSelecionarJogo)
 
+        // Obter o nome do usuário passado pela MainActivity
+        val userName = intent.getStringExtra("USER_NAME")
+        val userId = intent.getStringExtra("USER_ID")
+
         btnVoltarListaPartidas.setOnClickListener {
-            val intent = Intent(this, MenuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipal::class.java).apply {
+                putExtra("USER_NAME",userName)
+                putExtra("USER_ID",userId)
+            }
             startActivity(intent)
         }
 
