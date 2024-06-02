@@ -3,6 +3,7 @@ package com.example.app_noob
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ class ListaPartidas : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var atividadeAdapter: AtividadeAdapter
-    private lateinit var atividades: MutableList<PartidaRequest>
+    private val atividades: MutableList<PartidaRequest> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +36,15 @@ class ListaPartidas : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewAtividades)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        atividades = mutableListOf()
+
         atividadeAdapter = AtividadeAdapter(atividades)
         recyclerView.adapter = atividadeAdapter
 
-        buscarAtividades()
+        carregarAtividades()
         }
 
 
-    private fun buscarAtividades() {
+    private fun carregarAtividades() {
 
         val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
         val atividadeApi = RetrofitClient.getClient(baseUrl).create(AtividadeApi::class.java)
@@ -53,15 +54,16 @@ class ListaPartidas : AppCompatActivity() {
             override fun onResponse(call: Call<List<PartidaRequest>>, response: Response<List<PartidaRequest>>) {
                 if (response.isSuccessful) {
                     atividades.clear()
-                    response.body()?.let { atividades.addAll(it) }
+                    atividades.addAll(response.body() ?: emptyList())
                     atividadeAdapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(this@ListaPartidas, "Erro ao buscar atividades: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ListaPartidas, "Erro ao carregar as atividades: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<PartidaRequest>>, t: Throwable) {
                 Toast.makeText(this@ListaPartidas, "Erro na requisição: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("ListaPartidas", "Erro na chamada à API", t)
             }
         })
     }

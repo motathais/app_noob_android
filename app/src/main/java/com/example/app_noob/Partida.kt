@@ -31,7 +31,7 @@ class Partida : AppCompatActivity() {
         cronometro = findViewById(R.id.chronometer)
         btnSalvarPartida = findViewById(R.id.btnSalvarPartida)
 
-        btnVoltarPartida.setOnClickListener() {
+        btnVoltarPartida.setOnClickListener {
             val intent = Intent(this@Partida, MenuPrincipal::class.java)
             startActivity(intent)
         }
@@ -71,17 +71,18 @@ class Partida : AppCompatActivity() {
 
             // Coletar os pontos dos EditTexts
             val pontos = pontosEditTexts.map { it?.text.toString().toIntOrNull() ?: 0 }
-            val vencedorIndex = pontos.indexOf(pontos.maxOrNull())
+            val maxPontos = pontos.maxOrNull() ?: 0
+            val vencedoresIndices = pontos.withIndex().filter { it.value == maxPontos }.map { it.index }
 
             // Criação dos objetos necessários para a API
             val usuarioList = participantes.map { UsuarioPartida(it ?: "") }
             val jogoList = listOf(JogoPartida(jogo ?: ""))
-            val vencedor = usuarioList[vencedorIndex]
+            val vencedores = vencedoresIndices.map { usuarioList[it] }
 
             val atividade = PartidaRequest(
                 usuarios = usuarioList,
                 jogo = jogoList,
-                vencedor = vencedor,
+                vencedor = vencedores,
                 duracao = duracao
             )
 
@@ -93,8 +94,8 @@ class Partida : AppCompatActivity() {
             call.enqueue(object : Callback<PartidaResponse> {
                 override fun onResponse(call: Call<PartidaResponse>, response: Response<PartidaResponse>) {
                     if (response.isSuccessful) {
-                        //Toast.makeText(this@Partida, "Partida registrada com sucesso!", Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor: ${vencedor}", Toast.LENGTH_SHORT).show()
+                        val vencedorNomes = vencedores.joinToString(", ") { it.nome }
+                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor(es): $vencedorNomes", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this@Partida, "Erro ao registrar a partida: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
@@ -104,8 +105,6 @@ class Partida : AppCompatActivity() {
                     Toast.makeText(this@Partida, "Erro na requisição: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-
         }
     }
-
 }
