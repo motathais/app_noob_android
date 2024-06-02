@@ -31,7 +31,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/fotoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -41,29 +41,40 @@
         app:layout_constraintTop_toBottomOf="@+id/txtLogin"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <Button
+        android:id="@+id/btnEscolherFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Escolher Foto"
+        app:backgroundTint="#EF9125"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoUsuario" />
+
     <EditText
         android:id="@+id/txtNomePerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="56dp"
         android:ems="10"
         android:hint="Nome"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/fotoUsuario" />
 
     <EditText
         android:id="@+id/txtApelidoPerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Apelido"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNomePerfil" />
 
@@ -71,12 +82,12 @@
         android:id="@+id/txtNascimentoPerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Nascimento"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtApelidoPerfil" />
 
@@ -84,7 +95,7 @@
         android:id="@+id/txtEmailPerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
@@ -97,7 +108,7 @@
         android:id="@+id/txtSenhaPerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Nova senha"
         android:inputType="textPassword"
@@ -110,7 +121,7 @@
         android:id="@+id/txtConfirmarSenhaPerfil"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Confirmar senha"
         android:inputType="textPassword"
@@ -123,7 +134,7 @@
         android:id="@+id/btnAtualizarPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Atualizar"
         app:backgroundTint="#EF9125"
         app:layout_constraintEnd_toEndOf="parent"

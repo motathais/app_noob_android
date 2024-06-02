@@ -1,15 +1,20 @@
 package com.example.app_noob
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -17,6 +22,7 @@ import com.example.app_noob.models.UsuarioSearch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class PerfilUsuario : AppCompatActivity() {
 
@@ -28,6 +34,25 @@ class PerfilUsuario : AppCompatActivity() {
     private lateinit var txtSenhaPerfil: EditText
     private lateinit var txtConfirmarSenhaPerfil: EditText
     private lateinit var btnAtualizarPerfil: Button
+    private lateinit var btnEscolherFoto: Button
+    private lateinit var fotoUsuario: ImageView
+    private val PICK_IMAGE_REQUEST = 1
+    private val CAMERA_REQUEST = 2
+    private var imageUri: Uri? = null
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            imageUri = uri
+            try {
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                fotoUsuario.setImageBitmap(bitmap)
+                // Implementar a lógica de upload da imagem para o servidor aqui
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +67,8 @@ class PerfilUsuario : AppCompatActivity() {
         txtSenhaPerfil = findViewById(R.id.txtSenhaPerfil)
         txtConfirmarSenhaPerfil = findViewById(R.id.txtConfirmarSenhaPerfil)
         btnAtualizarPerfil = findViewById(R.id.btnAtualizarPerfil)
+        btnEscolherFoto = findViewById(R.id.btnEscolherFoto)
+        fotoUsuario = findViewById(R.id.fotoUsuario)
 
         // Obter o nome do usuário passado pela MainActivity
         val userName = intent.getStringExtra("USER_NAME")
@@ -64,7 +91,22 @@ class PerfilUsuario : AppCompatActivity() {
                 atualizarUsuario(userId)
             }
         }
+
+        btnEscolherFoto.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PICK_IMAGE_REQUEST)
+            } else {
+                pickImage()
+            }
+        }
+
     }
+
+    private fun pickImage() {
+        pickImageLauncher.launch("image/*")
+    }
+
+
 
     private fun buscarUsuarios(userId: String) {
         val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
