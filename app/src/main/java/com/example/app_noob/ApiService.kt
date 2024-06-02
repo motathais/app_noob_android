@@ -36,7 +36,10 @@ interface AtividadeApi {
     fun criarAtividade(@Body atividade: PartidaRequest): Call <PartidaResponse>
 
     @GET("api/atividades")
-    fun buscarAtividades(): Call<List<PartidaRequest>>
+    fun buscarAtividades(): Call<List<PartidaSearch>>
+
+    @DELETE("api/atividades/{id}")
+    fun deletarAtividade(@Path("id") id: String): Call<Void>
 }
 
 
