@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.text.InputType
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.example.app_noob.models.JogoPartida
 import com.example.app_noob.models.PartidaRequest
 import com.example.app_noob.models.PartidaResponse
@@ -37,8 +38,8 @@ class Partida : AppCompatActivity() {
 
         btnVoltarPartida.setOnClickListener {
             val intent = Intent(this@Partida, SelecionarJogo::class.java).apply {
-                putExtra("USER_NAME",userName)
-                putExtra("USER_ID",userId)
+                putExtra("USER_NAME", userName)
+                putExtra("USER_ID", userId)
             }
             startActivity(intent)
         }
@@ -79,46 +80,81 @@ class Partida : AppCompatActivity() {
             // Coletar os pontos dos EditTexts
             val pontos = pontosEditTexts.map { it?.text.toString().toIntOrNull() ?: 0 }
             val maxPontos = pontos.maxOrNull() ?: 0
-            val vencedoresIndices = pontos.withIndex().filter { it.value == maxPontos }.map { it.index }
+            val vencedoresIndices =
+                pontos.withIndex().filter { it.value == maxPontos }.map { it.index }
 
-            // Criação dos objetos necessários para a API
-            val usuarioList = participantes.map { UsuarioPartida(it ?: "") }
-            val jogoList = listOf(JogoPartida(jogo ?: ""))
-            val vencedores = vencedoresIndices.map { usuarioList[it] }
-
-            val atividade = PartidaRequest(
-                usuarios = usuarioList,
-                jogo = jogoList,
-                vencedor = vencedores,
-                duracao = duracao
-            )
-
-            // Enviar dados para a API usando Retrofit
-            val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
-            val atividadeApi = RetrofitClient.getClient(baseUrl).create(AtividadeApi::class.java)
-            val call = atividadeApi.criarAtividade(atividade)
-
-            call.enqueue(object : Callback<PartidaResponse> {
-                override fun onResponse(call: Call<PartidaResponse>, response: Response<PartidaResponse>) {
-                    if (response.isSuccessful) {
-                        val vencedorNomes = vencedores.joinToString(", ") { it.nome }
-                        Toast.makeText(this@Partida, "${response.body()!!.msg}. Vencedor: $vencedorNomes", Toast.LENGTH_SHORT).show()
-
+            // Verificar se há empate
+            if (vencedoresIndices.size > 1) {
+                // Exibir alerta de empate
+                AlertDialog.Builder(this)
+                    .setTitle("Empate")
+                    .setMessage("Houve um empate entre os participantes.")
+                    .setPositiveButton("Ok") { _, _ ->
+                        // Voltar para a Activity MenuPrincipal
                         val intent = Intent(this@Partida, MenuPrincipal::class.java).apply {
-                            putExtra("USER_NAME",userName)
-                            putExtra("USER_ID",userId)
+                            putExtra("USER_NAME", userName)
+                            putExtra("USER_ID", userId)
                         }
                         startActivity(intent)
-
-                    } else {
-                        Toast.makeText(this@Partida, "Erro ao registrar a partida: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
-                }
+                    .show()
+            } else {
 
-                override fun onFailure(call: Call<PartidaResponse>, t: Throwable) {
-                    Toast.makeText(this@Partida, "Erro na requisição: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
+                // Criação dos objetos necessários para a API
+                val usuarioList = participantes.map { UsuarioPartida(it ?: "") }
+                val jogoList = listOf(JogoPartida(jogo ?: ""))
+                val vencedores = vencedoresIndices.map { usuarioList[it] }
+
+                val atividade = PartidaRequest(
+                    usuarios = usuarioList,
+                    jogo = jogoList,
+                    vencedor = vencedores,
+                    duracao = duracao
+                )
+
+                // Enviar dados para a API usando Retrofit
+                val baseUrl = "https://api-noob.onrender.com" // Substituir pela URL base da API
+                val atividadeApi =
+                    RetrofitClient.getClient(baseUrl).create(AtividadeApi::class.java)
+                val call = atividadeApi.criarAtividade(atividade)
+
+                call.enqueue(object : Callback<PartidaResponse> {
+                    override fun onResponse(
+                        call: Call<PartidaResponse>,
+                        response: Response<PartidaResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val vencedorNomes = vencedores.joinToString(", ") { it.nome }
+                            Toast.makeText(
+                                this@Partida,
+                                "${response.body()!!.msg}. Vencedor: $vencedorNomes",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            val intent = Intent(this@Partida, MenuPrincipal::class.java).apply {
+                                putExtra("USER_NAME", userName)
+                                putExtra("USER_ID", userId)
+                            }
+                            startActivity(intent)
+
+                        } else {
+                            Toast.makeText(
+                                this@Partida,
+                                "Erro ao registrar a partida: ${response.errorBody()?.string()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<PartidaResponse>, t: Throwable) {
+                        Toast.makeText(
+                            this@Partida,
+                            "Erro na requisição: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+            }
         }
     }
 }
