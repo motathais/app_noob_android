@@ -65,15 +65,15 @@ class Partida : AppCompatActivity() {
             pontosEditTexts[i] = editText
         }
 
-        // Start the chronometer
+        // Iniciar o cronometro
         cronometro.base = SystemClock.elapsedRealtime()
         cronometro.start()
 
         btnSalvarPartida.setOnClickListener {
-            // Stop the chronometer
+            // Parar o cronometro
             cronometro.stop()
 
-            // Calculate elapsed time
+            // parar o cronometro
             milissegundosCorridos = SystemClock.elapsedRealtime() - cronometro.base
             val duracao = "${milissegundosCorridos / 1000} segundos"
 
